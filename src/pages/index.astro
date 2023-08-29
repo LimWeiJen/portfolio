@@ -1,5 +1,9 @@
+---
+import '../styles/global.css'
+---
 <body>
-  <div>
+  <div class="wrapper">
+  <div class="name">
     <span>L</span>
     <span>I</span>
     <span>M</span>
@@ -10,11 +14,69 @@
     <span>E</span>
     <span>N</span>
   </div>
-  <div>
+  <div class='desc'>
     digital crafter
   </div>
-  <a href="/about">Explore</a>
-  <div></div>
-  <div></div>
-  <div></div>
+  <a class="btn" href="/about">Explore</a>
+  </div>
+  <div class="rect"></div>
+  <div class="rect rect-1"></div>
+  <div class="rect rect-2"></div>
+  <div class="rect rect-3"></div>
 </body>
+
+<style>
+  .wrapper {
+    position: absolute;
+    top: 35vh;
+    left: 5vw;
+  }
+  .name span {
+    color: #93B1A6;
+    font-size: 6rem;
+  }
+  .desc {
+    color: #93B1A6;
+    font-size: 3rem;
+  }
+  .btn {
+    font-size: 2rem;
+    margin-top: 10rem;
+    padding: 0.5rem 2rem;
+    border-radius: 10px;
+    background: linear-gradient(131deg, #0D2626 0%, rgba(13, 38, 38, 0.00) 100%);
+  }
+  .rect {
+    width: 13.9375rem;
+    height: 15rem;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #404429 0%, #030B10 100%);
+    position: absolute;
+    bottom: 0rem;
+    right: 20vw;
+  }
+  .rect-1 {
+    height: 20rem;
+    background: linear-gradient(180deg, #183D3D 0%, #030B10 100%);
+    position: absolute;
+    right: 15vw;
+    bottom: 0rem;
+    z-index: 1;
+  }
+  .rect-2 {
+    height: 30rem;
+    background: linear-gradient(180deg, #2D4A3F 0%, #030B10 100%, #030B10 100%);
+    position: absolute;
+    right: 10vw;
+    bottom: 0rem;
+    z-index: 2;
+  }
+  .rect-3 {
+    height: 22rem;
+    background: linear-gradient(180deg, #0D2626 0%, #030B10 100%);
+    position: absolute;
+    right: 5vw;
+    bottom: 0rem;
+    z-index: 3;
+  }
+</style>
