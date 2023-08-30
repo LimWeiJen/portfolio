@@ -4,49 +4,96 @@ import '../styles/global.css'
 <body>
   <div class="wrapper">
   <div class="name">
-    <span>L</span>
-    <span>I</span>
-    <span>M</span>
-    <span>W</span>
-    <span>E</span>
-    <span>I</span>
-    <span>J</span>
-    <span>E</span>
-    <span>N</span>
+    <div style="animation-delay: 0.4s">L</div>
+    <div style="animation-delay: 0.6s">I</div>
+    <div style="animation-delay: 0.8s">M</div>
+    <div style="animation-delay: 1.0s">W</div>
+    <div style="animation-delay: 1.2s">E</div>
+    <div style="animation-delay: 1.4s">I</div>
+    <div style="animation-delay: 1.6s">J</div>
+    <div style="animation-delay: 1.8s">E</div>
+    <div style="animation-delay: 2.0s">N</div>
   </div>
   <div class='desc'>
     digital crafter
   </div>
   <a class="btn" href="/about">Explore</a>
   </div>
-  <div class="rect"></div>
+  <div class="rect rect-0"></div>
   <div class="rect rect-1"></div>
   <div class="rect rect-2"></div>
   <div class="rect rect-3"></div>
+  <div class="dots">
+  </div>
 </body>
 
 <style>
+  body {
+    overflow: hidden;
+  }
+  .dots {
+    position: relative;
+    width: 98vw;
+    height: 97vh;
+    overflow: hidden;
+    z-index: -1;
+  }
   .wrapper {
     position: absolute;
     top: 35vh;
     left: 5vw;
   }
-  .name span {
-    color: #93B1A6;
+  .name {
+    display: flex;
+  }
+  .name div {
+    color: #030B10;
     font-size: 6rem;
+    animation: appear 2s ease-in forwards;
+    font-weight: bold;
+  }
+  @keyframes appear {
+    0% {
+      color: #030B10;
+      transform: translateX(-1rem);
+      text-shadow: none;
+    }
+    100% {
+      color: #93B1A6;
+      transform: translateX(0rem);
+      text-shadow: 0px 2px 50px #000;
+    }
+  }
+  @keyframes fade {
+    0% {
+      opacity: 0%;
+    }
+    100% {
+      opacity: 100%;
+    }
   }
   .desc {
+    animation: fade 4s ease-in forwards;
     color: #93B1A6;
     font-size: 3rem;
+    margin-bottom: 2.5rem;
   }
   .btn {
+    z-index: 100;
+    display: inline-block;
+    animation: fade 4s ease-in forwards;
     font-size: 2rem;
-    margin-top: 10rem;
-    padding: 0.5rem 2rem;
+    padding: 1rem 2rem;
     border-radius: 10px;
     background: linear-gradient(131deg, #0D2626 0%, rgba(13, 38, 38, 0.00) 100%);
+    transition: all 0.3s ease;
+  }
+  .btn:hover {
+    transform: scale(1.1);
   }
   .rect {
+    animation: fade 4s ease-in forwards;
+    opacity: 0%;
     width: 13.9375rem;
     height: 15rem;
     border-radius: 10px;
@@ -54,8 +101,10 @@ import '../styles/global.css'
     position: absolute;
     bottom: 0rem;
     right: 20vw;
+    transition: all 500ms ease;
   }
   .rect-1 {
+    animation-delay: 0.2s;
     height: 20rem;
     background: linear-gradient(180deg, #183D3D 0%, #030B10 100%);
     position: absolute;
@@ -63,7 +112,11 @@ import '../styles/global.css'
     bottom: 0rem;
     z-index: 1;
   }
+  .rect-1:hover {
+    height: 50%;
+  }
   .rect-2 {
+    animation-delay: 0.4s;
     height: 30rem;
     background: linear-gradient(180deg, #2D4A3F 0%, #030B10 100%, #030B10 100%);
     position: absolute;
@@ -71,7 +124,11 @@ import '../styles/global.css'
     bottom: 0rem;
     z-index: 2;
   }
+  .rect-2:hover {
+    height: 75%;
+  }
   .rect-3 {
+    animation-delay: 0.6s;
     height: 22rem;
     background: linear-gradient(180deg, #0D2626 0%, #030B10 100%);
     position: absolute;
@@ -79,4 +136,62 @@ import '../styles/global.css'
     bottom: 0rem;
     z-index: 3;
   }
+  .rect-3:hover {
+    height: 55%;
+  }
+  .rect-0:hover {
+    height: 35%;
+  }
 </style>
+
+<script type="text/javascript">
+  const parallaxContainer = document.querySelector('.dots');
+  const speedList = [];
+  const rectSpeedList = [0.05, 0.1, 0.05, 0.1]
+
+  for (let i = 0; i < 50; i++) {
+    const dots = document.createElement('div');
+    dots.classList.add('dot');
+    dots.style.width = '0.2rem';
+    dots.style.height = '0.2rem';
+    dots.style.borderRadius = '100%'
+    dots.style.background = 'rgb(255, 255, 255, 0.1)';
+    dots.style.animation = 'fade 4s forwards ease-in'
+    dots.style.zIndex = '-10';
+    dots.style.position = 'absolute';
+    dots.style.left = `${Math.random() * 100}%`;
+    dots.style.top = `${Math.random() * 100}%`;
+    parallaxContainer.appendChild(dots);
+    speedList.push(Math.random() * 2);
+  }
+
+document.addEventListener('mousemove', handleMouseMove);
+
+function handleMouseMove(event) {
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+
+  const offsetX = mouseX / parallaxContainer.offsetWidth;
+  const offsetY = mouseY / parallaxContainer.offsetHeight;
+
+  const parallaxLayers = document.querySelectorAll('.dot');
+
+  parallaxLayers.forEach((layer, i) => {
+    const translateX = offsetX * 100 * speedList[i];
+    const translateY = offsetY * 100 * speedList[i];
+
+    layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
+  });
+
+  const rectLayers = document.querySelectorAll('.rect');
+
+  rectLayers.forEach((layer, i) => {
+    const translateX = offsetX * 100 * rectSpeedList[i];
+    const translateY = offsetY * 100 * rectSpeedList[i];
+
+    layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
+  });
+}
+</script>
+
+
