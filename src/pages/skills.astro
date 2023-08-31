@@ -5,27 +5,62 @@ import '../styles/global.css'
 <body>
   <Navbar />
   <main>
+    <div>
   <h1>SKILLS</h1>
-  <div>
+  <div class='t'>
+  <div class="g">
     <h2>LANGUAGES</h2>
     <p>Javascript</p>
     <p>Typescript</p>
+    <p>HTML</p>
+    <p>CSS/SCSS</p>
+    <p>Python</p>
   </div>
-  <div>
-    <h2>LANGUAGES</h2>
-    <p>Javascript</p>
-    <p>Typescript</p>
+  <div class="g">
+    <h2>FRONTEND</h2>
+    <p>React/Next</p>
+    <p>Astro</p>
+    <p>Firebase</p>
+    <p>TailwindCSS</p>
   </div>
-  <div>
-    <h2>LANGUAGES</h2>
-    <p>Javascript</p>
-    <p>Typescript</p>
+  <div class="g">
+    <h2>BACKEND</h2>
+    <p>Express</p>
+    <p>Flask</p>
+    <p>MongoDB</p>
+    <p>Prisma</p>
+    <p>Jest</p>
+    <p>Node</p>
   </div>
-  <div>
-    <h2>LANGUAGES</h2>
-    <p>Javascript</p>
-    <p>Typescript</p>
+  <div class="g">
+    <h2>TOOLS</h2>
+    <p>Figma</p>
+    <p>Git/Github</p>
+    <p>Neovim</p>
   </div>
-  </main>
+  </div>
   <a href="/handpicked_projects">-></a>
+    </div>
+  </main>
 </body>
+
+<style>
+  h1 {
+    margin: 1rem;
+  }
+  .t {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  .g {
+    margin: 0rem 1rem;
+  }
+  p {
+    margin: 0.1rem;
+  }
+  a {
+    position: absolute;
+    padding: 1rem
+  }
+</style>
