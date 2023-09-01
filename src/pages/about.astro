@@ -15,7 +15,20 @@ import '../styles/global.css'
 </body>
 
 <style>
+  body {
+    overflow: hidden;
+    opacity: 0%;
+    animation: fade-in 3s ease forwards;
+  }
   div {
     width: 50rem;
+  }
+  @keyframes fade-in {
+    0% {
+      opacity: 0%;
+    }
+    100% {
+      opacity: 100%;
+    }
   }
 <style/>

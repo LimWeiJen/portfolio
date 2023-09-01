@@ -45,6 +45,11 @@ import '../styles/global.css'
 </body>
 
 <style>
+  body {
+    overflow: hidden;
+    opacity: 0%;
+    animation: fade-in 3s ease forwards;
+  }
   h1 {
     margin: 1rem;
   }
@@ -62,5 +67,13 @@ import '../styles/global.css'
   a {
     position: absolute;
     padding: 1rem
+  }
+  @keyframes fade-in {
+    0% {
+      opacity: 0%;
+    }
+    100% {
+      opacity: 100%;
+    }
   }
 </style>

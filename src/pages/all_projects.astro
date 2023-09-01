@@ -1,0 +1,74 @@
+---
+import Navbar from '../components/sidebar.astro';
+import '../styles/global.css'
+import dotenv from 'dotenv'
+
+dotenv.config();
+
+const DatabaseID = process.env.DATABASE_ID;
+const NotionToken = process.env.NOTION_TOKEN;
+
+const handpickedProjects = [];
+
+const res = await fetch(`https://api.notion.com/v1/databases/${DatabaseID}/query`, {
+    method: 'POST',
+    headers: {
+    'Authorization': `Bearer ${NotionToken}`,
+    'Content-Type': 'application/json',
+    'Notion-version': '2021-08-16'
+    }
+  }
+)
+
+const data = (await res.json()).results;
+
+data.forEach(page => {
+  const prop = page.properties;
+  if (prop['Type of Project'].select.name !== 'Handpicked Projects') {
+    handpickedProjects.push({
+      name: prop.Name.title[0].plain_text,
+      description: prop['Description'].rich_text[0].plain_text,
+      url: prop['App URL'].url
+    })
+  }
+})
+---
+<body>
+  <Navbar />
+  <main>
+    <h1>ALL PROJECTS</h1>
+    <div>
+      <div class="project-container">
+        {handpickedProjects.map(project => <div>
+          <a href={project.url} target="_blank">
+            <h2>{project.name}</h2>
+            <p>{project.description}</p>
+          </a>
+        </div>)}
+      </div>
+      <a href="/contacts">-></a>
+    </div>
+  </main>
+</body>
+<style>
+  @keyframes fade-in {
+    0% {
+      opacity: 0%;
+    }
+    100% {
+      opacity: 100%;
+    }
+  }
+  .project-container {
+    width: 50rem;
+  }
+  body {
+    overflow: hidden;
+    opacity: 0%;
+    animation: fade-in 3s ease forwards;
+  }
+  button {
+    position: absolute;
+    left: 36vw;
+  }
+<style/>
