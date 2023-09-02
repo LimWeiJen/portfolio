@@ -9,12 +9,65 @@ import '../styles/global.css'
     <h1>BACKGROUND</h1>
     <p>Hello there! I'm Lim Wei Jen, a self-taught full-stack web developer. I love collaborating on quick projects and bringing ideas to life. With a passion for both graphics design and programming, I create visually stunning and functional websites. I love to embark on new challenges to constantly push myself, and I am thrilled to collaborate with like-minded individuals. If you're looking for a dedicated web developer who can bring your ideas to life with precision and creativity, look no further! Let's work together to create something amazing!</p>
     <p>When I'm not immersed in the world of web development, you will probably find me playing chess, speed solving Rubik's cube, developing indie games and thinking about the meaning of life.</p>
-  <a href="/skills">-></a>
+    <a href="/skills">-></a>
     </div>
   </main>
+  <div class="dots">
+  </div>
+<script type="text/javascript">
+  console.log('hello')
+  const parallaxContainer = document.querySelector('.dots');
+  const speedList = [];
+
+  for (let i = 0; i < 50; i++) {
+    const dots = document.createElement('div');
+    dots.classList.add('dot');
+    dots.style.width = '0.2rem';
+    dots.style.height = '0.2rem';
+    dots.style.borderRadius = '100%'
+    dots.style.background = 'rgb(255, 255, 255, 0.1)';
+    dots.style.animation = 'fade 4s forwards ease-in'
+    dots.style.zIndex = '-10';
+    dots.style.position = 'absolute';
+    dots.style.left = `${Math.random() * 100}%`;
+    dots.style.top = `${Math.random() * 100}%`;
+    parallaxContainer.appendChild(dots);
+    speedList.push(Math.random() * 2);
+  }
+
+document.addEventListener('mousemove', handleMouseMove);
+
+function handleMouseMove(event) {
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+
+  const offsetX = mouseX / parallaxContainer.offsetWidth;
+  const offsetY = mouseY / parallaxContainer.offsetHeight;
+
+  const parallaxLayers = document.querySelectorAll('.dot');
+
+  parallaxLayers.forEach((layer, i) => {
+    const translateX = offsetX * 100 * speedList[i];
+    const translateY = offsetY * 100 * speedList[i];
+
+    layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
+  });
+}
+</script>
+
+
 </body>
 
 <style>
+  .dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 98vw;
+    height: 97vh;
+    overflow: hidden;
+    z-index: -1;
+  }
   body {
     overflow: hidden;
     opacity: 0%;
@@ -31,4 +84,10 @@ import '../styles/global.css'
       opacity: 100%;
     }
   }
+  @media (max-width: 767px) {
+    div {
+      width: 20rem;
+    }
+  }
 <style/>
+

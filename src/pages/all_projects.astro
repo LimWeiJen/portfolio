@@ -37,7 +37,6 @@ data.forEach(page => {
   <Navbar />
   <main>
     <h1>ALL PROJECTS</h1>
-    <div>
       <div class="project-container">
         {handpickedProjects.map(project => <div>
           <a href={project.url} target="_blank">
@@ -47,8 +46,50 @@ data.forEach(page => {
         </div>)}
       </div>
       <a href="/contacts">-></a>
-    </div>
-  </main>
+   <div class="dots">
+  </div>
+ <script type="text/javascript">
+  console.log('hello')
+  const parallaxContainer = document.querySelector('.dots');
+  const speedList = [];
+
+  for (let i = 0; i < 50; i++) {
+    const dots = document.createElement('div');
+    dots.classList.add('dot');
+    dots.style.width = '0.2rem';
+    dots.style.height = '0.2rem';
+    dots.style.borderRadius = '100%'
+    dots.style.background = 'rgb(255, 255, 255, 0.1)';
+    dots.style.animation = 'fade 4s forwards ease-in'
+    dots.style.zIndex = '-10';
+    dots.style.position = 'absolute';
+    dots.style.left = `${Math.random() * 100}%`;
+    dots.style.top = `${Math.random() * 100}%`;
+    parallaxContainer.appendChild(dots);
+    speedList.push(Math.random() * 2);
+  }
+
+document.addEventListener('mousemove', handleMouseMove);
+
+function handleMouseMove(event) {
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+
+  const offsetX = mouseX / parallaxContainer.offsetWidth;
+  const offsetY = mouseY / parallaxContainer.offsetHeight;
+
+  const parallaxLayers = document.querySelectorAll('.dot');
+
+  parallaxLayers.forEach((layer, i) => {
+    const translateX = offsetX * 100 * speedList[i];
+    const translateY = offsetY * 100 * speedList[i];
+
+    layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
+  });
+}
+</script>
+
+ </main>
 </body>
 <style>
   @keyframes fade-in {
@@ -61,6 +102,19 @@ data.forEach(page => {
   }
   .project-container {
     width: 50rem;
+    overflow-y: scroll;
+  }
+  .project-container div a {
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+  .project-container div a p {
+    width: 25rem;
+  }
+  .project-container div a:hover {
+    background: #2D4A3F;
   }
   body {
     overflow: hidden;
@@ -70,5 +124,25 @@ data.forEach(page => {
   button {
     position: absolute;
     left: 36vw;
+  }
+  .dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 98vw;
+    height: 97vh;
+    overflow: hidden;
+    z-index: -1;
+  }
+  @media (max-width: 767px) {
+    .project-container {
+      width: 20rem;
+    }
+    .project-container div a {
+      display: block;
+    }
+    .project-container div a p {
+      width: 15rem;
+    }
   }
 <style/>

@@ -28,6 +28,7 @@ import '../styles/global.css'
 </body>
 
 <style>
+
   body {
     overflow: hidden;
   }
@@ -141,6 +142,28 @@ import '../styles/global.css'
   }
   .rect-0:hover {
     height: 13rem;
+  }
+
+  @media (max-width: 767px) {
+    .rect {
+      display: none;
+    }
+    .name {
+      justify-content: center;
+      width: 90vw;
+    }
+    .name div {
+      font-size: 3rem;
+    }
+    .desc {
+      font-size: 2rem;
+      text-align: center;
+    }
+    .btn {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+    }
   }
 </style>
 
