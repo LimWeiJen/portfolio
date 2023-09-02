@@ -103,6 +103,12 @@ function handleMouseMove(event) {
   .project-container {
     width: 50rem;
     overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .project-container::-webkit-scrollbar {
+    width: 0;
+    background-color: transparent;
   }
   .project-container div a {
     transition: all 0.3s ease;

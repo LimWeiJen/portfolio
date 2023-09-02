@@ -111,6 +111,12 @@ function handleMouseMove(event) {
   .project-container {
     overflow-y: scroll;
     height: 20rem;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .project-container::-webkit-scrollbar {
+    width: 0;
+    background-color: transparent;
   }
   body {
     overflow: hidden;
