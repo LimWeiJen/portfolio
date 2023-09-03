@@ -1,18 +1,19 @@
 ---
 import Navbar from '../components/sidebar.astro';
-import '../styles/global.css'
 import dotenv from 'dotenv'
+import Layout from '../layouts/Layout.astro'
 
 dotenv.config();
 
 const DatabaseID = process.env.DATABASE_ID;
 const NotionToken = process.env.NOTION_TOKEN;
 
-const handpickedProjects = [];
+const allProjects = [];
 
+// fetch the project list from Notion API
 const res = await fetch(`https://api.notion.com/v1/databases/${DatabaseID}/query`, {
-    method: 'POST',
-    headers: {
+  method: 'POST',
+  headers: {
     'Authorization': `Bearer ${NotionToken}`,
     'Content-Type': 'application/json',
     'Notion-version': '2021-08-16'
@@ -20,12 +21,17 @@ const res = await fetch(`https://api.notion.com/v1/databases/${DatabaseID}/query
   }
 )
 
+// extract data from the response
 const data = (await res.json()).results;
 
-data.forEach(page => {
+// iterate over each project in the data
+data.forEach((page: any) => {
   const prop = page.properties;
+
+  // check if the project is not a handpicked project
   if (prop['Type of Project'].select.name !== 'Handpicked Projects') {
-    handpickedProjects.push({
+    // add the project details to the allProjects array
+    allProjects.push({
       name: prop.Name.title[0].plain_text,
       description: prop['Description'].rich_text[0].plain_text,
       url: prop['App URL'].url
@@ -33,12 +39,12 @@ data.forEach(page => {
   }
 })
 ---
-<body>
+<Layout title="All Projects">
   <Navbar />
   <main>
     <h1>ALL PROJECTS</h1>
       <div class="project-container">
-        {handpickedProjects.map(project => <div>
+        {allProjects.map(project => <div>
           <a href={project.url} target="_blank">
             <h2>{project.name}</h2>
             <p>{project.description}</p>
@@ -46,51 +52,8 @@ data.forEach(page => {
         </div>)}
       </div>
       <a href="/contacts">-></a>
-   <div class="dots">
-  </div>
- <script type="text/javascript">
-  console.log('hello')
-  const parallaxContainer = document.querySelector('.dots');
-  const speedList = [];
-
-  for (let i = 0; i < 50; i++) {
-    const dots = document.createElement('div');
-    dots.classList.add('dot');
-    dots.style.width = '0.2rem';
-    dots.style.height = '0.2rem';
-    dots.style.borderRadius = '100%'
-    dots.style.background = 'rgb(255, 255, 255, 0.1)';
-    dots.style.animation = 'fade 4s forwards ease-in'
-    dots.style.zIndex = '-10';
-    dots.style.position = 'absolute';
-    dots.style.left = `${Math.random() * 100}%`;
-    dots.style.top = `${Math.random() * 100}%`;
-    parallaxContainer.appendChild(dots);
-    speedList.push(Math.random() * 2);
-  }
-
-document.addEventListener('mousemove', handleMouseMove);
-
-function handleMouseMove(event) {
-  const mouseX = event.clientX;
-  const mouseY = event.clientY;
-
-  const offsetX = mouseX / parallaxContainer.offsetWidth;
-  const offsetY = mouseY / parallaxContainer.offsetHeight;
-
-  const parallaxLayers = document.querySelectorAll('.dot');
-
-  parallaxLayers.forEach((layer, i) => {
-    const translateX = offsetX * 100 * speedList[i];
-    const translateY = offsetY * 100 * speedList[i];
-
-    layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
-  });
-}
-</script>
-
  </main>
-</body>
+</Layout>
 <style>
   @keyframes fade-in {
     0% {

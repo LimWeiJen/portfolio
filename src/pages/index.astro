@@ -1,7 +1,7 @@
 ---
-import '../styles/global.css'
+import Layout from '../layouts/Layout.astro'
 ---
-<body>
+<Layout title="Lim Wei Jen">
   <div class="wrapper">
   <div class="name">
     <div style="animation-delay: 0.4s">L</div>
@@ -23,12 +23,8 @@ import '../styles/global.css'
   <div class="rect rect-1"></div>
   <div class="rect rect-2"></div>
   <div class="rect rect-3"></div>
-  <div class="dots">
-  </div>
-</body>
-
+</Layout>
 <style>
-
   body {
     overflow: hidden;
   }
@@ -143,7 +139,6 @@ import '../styles/global.css'
   .rect-0:hover {
     height: 13rem;
   }
-
   @media (max-width: 767px) {
     .rect {
       display: none;
@@ -166,55 +161,27 @@ import '../styles/global.css'
     }
   }
 </style>
-
 <script type="text/javascript">
-  const parallaxContainer = document.querySelector('.dots');
-  const speedList = [];
   const rectSpeedList = [0.05, 0.1, 0.05, 0.1]
 
-  for (let i = 0; i < 50; i++) {
-    const dots = document.createElement('div');
-    dots.classList.add('dot');
-    dots.style.width = '0.2rem';
-    dots.style.height = '0.2rem';
-    dots.style.borderRadius = '100%'
-    dots.style.background = 'rgb(255, 255, 255, 0.1)';
-    dots.style.animation = 'fade 4s forwards ease-in'
-    dots.style.zIndex = '-10';
-    dots.style.position = 'absolute';
-    dots.style.left = `${Math.random() * 100}%`;
-    dots.style.top = `${Math.random() * 100}%`;
-    parallaxContainer.appendChild(dots);
-    speedList.push(Math.random() * 2);
+  document.addEventListener('mousemove', handleMouseMove);
+
+  function handleMouseMove(event) {
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
+
+    const offsetX = mouseX / parallaxContainer.offsetWidth;
+    const offsetY = mouseY / parallaxContainer.offsetHeight;
+
+    const rectLayers = document.querySelectorAll('.rect');
+
+    rectLayers.forEach((layer, i) => {
+      const translateX = offsetX * 100 * rectSpeedList[i];
+      const translateY = offsetY * 100 * rectSpeedList[i];
+
+      layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
+    });
   }
-
-document.addEventListener('mousemove', handleMouseMove);
-
-function handleMouseMove(event) {
-  const mouseX = event.clientX;
-  const mouseY = event.clientY;
-
-  const offsetX = mouseX / parallaxContainer.offsetWidth;
-  const offsetY = mouseY / parallaxContainer.offsetHeight;
-
-  const parallaxLayers = document.querySelectorAll('.dot');
-
-  parallaxLayers.forEach((layer, i) => {
-    const translateX = offsetX * 100 * speedList[i];
-    const translateY = offsetY * 100 * speedList[i];
-
-    layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
-  });
-
-  const rectLayers = document.querySelectorAll('.rect');
-
-  rectLayers.forEach((layer, i) => {
-    const translateX = offsetX * 100 * rectSpeedList[i];
-    const translateY = offsetY * 100 * rectSpeedList[i];
-
-    layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
-  });
-}
 </script>
 
 

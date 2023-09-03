@@ -1,4 +1,5 @@
 --- 
+import '../styles/global.css';
 interface Props {
 	title: string;
 }
@@ -10,30 +11,80 @@ const { title } = Astro.props;
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description">
+		<meta name="description" content="Lim Wei Jen's portfolio">
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="../../public/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+    <title>{title}</title>
 	</head>
-	<body>
-		<slot />
-	</body>
+  <body>
+    <slot />
+    <div class="dots"></div>
+  </body>
+  <script type="text/javascript">
+    //select the parallax container element
+    const parallaxContainer = document.querySelector('.dots');
+    // array to store speed values for each dot
+    const speedList = [];
+
+    // create 50 dots with random positions and speeds and add them to the parallax container
+    for (let i = 0; i < 50; i++) {
+      const dots = document.createElement('div');
+      dots.classList.add('dot');
+      
+      // set dot styles
+      dots.style.width = '0.2rem';
+      dots.style.height = '0.2rem';
+      dots.style.borderRadius = '100%'
+      dots.style.background = 'rgb(255, 255, 255, 0.1)';
+      dots.style.animation = 'fade 4s forwards ease-in'
+      dots.style.zIndex = '-10';
+      dots.style.position = 'absolute';
+      dots.style.left = `${Math.random() * 100}%`;
+      dots.style.top = `${Math.random() * 100}%`;
+
+      // append the dot to the parallax container
+      parallaxContainer.appendChild(dots);
+
+      // generate the random speed value for the dot and add it to the speedList array
+      speedList.push(Math.random() * 2);
+    }
+
+    // add a mousemove event listener
+    document.addEventListener('mousemove', handleMouseMove);
+
+    function handleMouseMove(event) {
+      const mouseX = event.clientX;
+      const mouseY = event.clientY;
+
+      // calculate the mouse position relative to the parallax container
+      const offsetX = mouseX / parallaxContainer.offsetWidth;
+      const offsetY = mouseY / parallaxContainer.offsetHeight;
+
+      // select all dot elements
+      const parallaxLayers = document.querySelectorAll('.dot');
+
+      // iterate over each dot element
+        parallaxLayers.forEach((layer, i) => {
+        
+        // calculate the translation values based on the mouse position and dot speed
+        const translateX = offsetX * 100 * speedList[i];
+        const translateY = offsetY * 100 * speedList[i];
+
+        // apply the translation to the dot element using css transform
+        layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
+      });
+    }
+  </script>
+  <style>
+    .dots {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 98vw;
+      height: 97vh;
+      overflow: hidden;
+      z-index: -1;
+    }
+  </style>
 </html>
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, white 60%);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151A;
-		background-size: 224px;
-	}
-	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
-	}
-</style>

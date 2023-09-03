@@ -1,8 +1,8 @@
 ---
 import Navbar from '../components/sidebar.astro';
-import '../styles/global.css'
 import CustomProject from '../components/custom_project.astro';
 import dotenv from 'dotenv'
+import Layout from '../layouts/Layout.astro'
 
 dotenv.config();
 
@@ -11,6 +11,7 @@ const NotionToken = process.env.NOTION_TOKEN;
 
 const handpickedProjects = [];
 
+// fetch all projects from the Notion API
 const res = await fetch(`https://api.notion.com/v1/databases/${DatabaseID}/query`, {
     method: 'POST',
     headers: {
@@ -21,11 +22,16 @@ const res = await fetch(`https://api.notion.com/v1/databases/${DatabaseID}/query
   }
 )
 
+// extract data from the response
 const data = (await res.json()).results;
 
-data.forEach(page => {
+// iterate over each project in the data
+data.forEach((page: any) => {
   const prop = page.properties;
+
+  // check if the project is a handpicked project
   if (prop['Type of Project'].select.name === 'Handpicked Projects') {
+    // add the project details to the handpickedProjects array
     handpickedProjects.push({
       name: prop.Name.title[0].plain_text,
       imgUrl: prop['Image URL'].url,
@@ -35,7 +41,7 @@ data.forEach(page => {
   }
 })
 ---
-<body>
+<Layout title="Handpicked Projects">
   <Navbar />
   <main>
     <h1>HANDPICKED PROJECT</h1>
@@ -45,51 +51,8 @@ data.forEach(page => {
       </div>
     </div>
     <a href="/all_projects">-></a>
-   <div class="dots">
-  </div>
- <script type="text/javascript">
-  console.log('hello')
-  const parallaxContainer = document.querySelector('.dots');
-  const speedList = [];
-
-  for (let i = 0; i < 50; i++) {
-    const dots = document.createElement('div');
-    dots.classList.add('dot');
-    dots.style.width = '0.2rem';
-    dots.style.height = '0.2rem';
-    dots.style.borderRadius = '100%'
-    dots.style.background = 'rgb(255, 255, 255, 0.1)';
-    dots.style.animation = 'fade 4s forwards ease-in'
-    dots.style.zIndex = '-10';
-    dots.style.position = 'absolute';
-    dots.style.left = `${Math.random() * 100}%`;
-    dots.style.top = `${Math.random() * 100}%`;
-    parallaxContainer.appendChild(dots);
-    speedList.push(Math.random() * 2);
-  }
-
-document.addEventListener('mousemove', handleMouseMove);
-
-function handleMouseMove(event) {
-  const mouseX = event.clientX;
-  const mouseY = event.clientY;
-
-  const offsetX = mouseX / parallaxContainer.offsetWidth;
-  const offsetY = mouseY / parallaxContainer.offsetHeight;
-
-  const parallaxLayers = document.querySelectorAll('.dot');
-
-  parallaxLayers.forEach((layer, i) => {
-    const translateX = offsetX * 100 * speedList[i];
-    const translateY = offsetY * 100 * speedList[i];
-
-    layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
-  });
-}
-</script>
-
  </main>
-</body>
+</Layout>
 <style>
   .dots {
     position: absolute;
