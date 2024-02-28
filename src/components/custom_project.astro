@@ -1,33 +1,41 @@
 <div class="custom_project">
-  <a href={Astro.props.url} target="_blank">
+  <div class="container">
   <img src={Astro.props.img} alt="">
-  <h2>{Astro.props.title}</h2>
-  <p>{Astro.props.desc}</p>
-  </a>
+  <div class="text">
+    <h2>{Astro.props.title}</h2>
+    <p>{Astro.props.desc}</p>
+    <a href={Astro.props.url} target="_blank">Visit</a>
+  </div>
+  </div>
 </div>
 <style>
   .custom_project {
     margin: 1rem;
-    width: 50rem;
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;
-    position: -webkit-sticky;
-    position: sticky;
     left: 2rem;
     transition: all 0.3s ease;
   }
-  .custom_project a {
-    background-color: #0B2A2C;
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 1px 1px 20px 1px #000;
-  }
-  .custom_project a img {
-    width: 20rem;
-  }
   .custom_project:hover {
-    transform: scale(1.01) rotate(0.5deg);
+    transform: scale(1.05);
+    filter: brightness(70%);
+  }
+  .custom_project .container {
+    border-radius: 20px;
+    box-shadow: 1px 1px 20px 1px #000;
+    background: #0B2A2C;
+  }
+  .custom_project .container img {
+    width: 21rem;
+    height: 15rem;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+  .custom_project .container .text {
+    width: 20rem;
+    height: 9rem;
+    margin-left: 1rem;
   }
   @media (max-width: 767px) {
     .custom_project {

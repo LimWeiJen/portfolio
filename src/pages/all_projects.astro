@@ -24,6 +24,12 @@ const res = await fetch(`https://api.notion.com/v1/databases/${DatabaseID}/query
 // extract data from the response
 const data = (await res.json()).results;
 
+data.sort((a: any, b: any) => {
+  const propA = a.properties.Name.title[0].plain_text;
+  const propB = b.properties.Name.title[0].plain_text;
+  return propA.localeCompare(propB);
+})
+
 // iterate over each project in the data
 data.forEach((page: any) => {
   const prop = page.properties;
@@ -65,13 +71,9 @@ data.forEach((page: any) => {
   }
   .project-container {
     width: 50rem;
+    height: 25rem;
     overflow-y: scroll;
-    -ms-overflow-style: none;
     scrollbar-width: none;
-  }
-  .project-container::-webkit-scrollbar {
-    width: 0;
-    background-color: transparent;
   }
   .project-container div a {
     transition: all 0.3s ease;
@@ -104,7 +106,12 @@ data.forEach((page: any) => {
     z-index: -1;
   }
   @media (max-width: 767px) {
+    body {
+      overflow: scroll;
+    }
     .project-container {
+      overflow: scroll;
+      height: 30rem;
       width: 20rem;
     }
     .project-container div a {

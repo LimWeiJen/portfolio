@@ -20,8 +20,10 @@ const { title } = Astro.props;
   <body>
     <slot />
     <div class="dots"></div>
+    <div id="spotlight"></div>
   </body>
-  <script type="text/javascript">
+<script type="text/javascript">
+    const spotlightEl = document.querySelector("#spotlight");
     //select the parallax container element
     const parallaxContainer = document.querySelector('.dots');
     // array to store speed values for each dot
@@ -65,7 +67,7 @@ const { title } = Astro.props;
       const parallaxLayers = document.querySelectorAll('.dot');
 
       // iterate over each dot element
-        parallaxLayers.forEach((layer, i) => {
+      parallaxLayers.forEach((layer, i) => {
         
         // calculate the translation values based on the mouse position and dot speed
         const translateX = offsetX * 100 * speedList[i];
@@ -74,6 +76,8 @@ const { title } = Astro.props;
         // apply the translation to the dot element using css transform
         layer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
       });
+
+        spotlightEl.style.background = `radial-gradient(circle at ${mouseX}px ${mouseY}px, #00000000 10px, #00000066 350px)`
     }
   </script>
   <style>
@@ -84,6 +88,17 @@ const { title } = Astro.props;
       width: 98vw;
       height: 97vh;
       overflow: hidden;
+      z-index: -1;
+    }
+
+    #spotlight {
+      position: fixed;
+      opacity: 1;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      pointer-events: none;
       z-index: -1;
     }
   </style>
